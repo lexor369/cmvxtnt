@@ -3,181 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
-    <title>CMV LIVE </title>
+    <title>Willow FHD - Live</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css" crossorigin="anonymous">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-        }
-
-        /* POPUP STYLES FROM YOUR BLOG */
-        .popup {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(10, 25, 47, 0.98);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .popup.hide {
-            display: none;
-        }
-
-        .popup-content {
-            background: #112d4e;
-            border-radius: 20px;
-            padding: 40px 35px;
-            max-width: 420px;
-            width: 90vw;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            color: #e1e8f0;
-        }
-
-        .popup-content h2 {
-            margin-top: 0;
-            font-size: 1.8rem;
-            color: #ffd700;
-            margin-bottom: 18px;
-        }
-
-        .btn-telegram {
-            display: block;
-            background-color: #fff;
-            color: #007bff;
-            font-weight: 700;
-            font-size: 1.2rem;
-            padding: 15px;
-            border-radius: 12px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            border: 3px solid #007bff;
-            transition: 0.3s;
-        }
-
-        .btn-telegram:hover {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        .btn-joined {
-            background-color: transparent;
-            color: #a8c0ff;
-            font-size: 1rem;
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: 2px solid #a8c0ff;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        /* PLAYER CONTAINER */
-        #player-container {
-            width: 100%;
-            height: 100vh;
-            background-color: black;
-        }
-
-        #player-container.hide {
-            display: none;
-        }
-
-        video {
-            width: 100%;
-            height: 100%;
-        }
-
-        #anti-iframe-msg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; color: #fff;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px; z-index: 10000;
-        }
+        body { margin: 0; background: #000; font-family: sans-serif; overflow: hidden; }
+        .popup { position: fixed; inset: 0; background: rgba(10, 25, 47, 0.98); display: flex; justify-content: center; align-items: center; z-index: 9999; }
+        .popup.hide { display: none; }
+        .popup-content { background: #112d4e; border-radius: 20px; padding: 40px; text-align: center; color: #fff; width: 90%; max-width: 400px; }
+        .btn-telegram { display: block; background: #fff; color: #007bff; padding: 15px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-bottom: 20px; border: 3px solid #007bff; }
+        .btn-joined { background: transparent; color: #a8c0ff; padding: 10px 20px; border-radius: 10px; border: 2px solid #a8c0ff; cursor: pointer; }
+        
+        /* Ensure player fills screen */
+        #video-container { width: 100vw; height: 100vh; background: #000; }
+        video { width: 100%; height: 100%; }
+        .hide { display: none; }
     </style>
 </head>
 <body>
 
-    <script>
-        if (window.top !== window.self) {
-            document.write('<div id="anti-iframe-msg">Access Denied</div>');
-            window.stop();
-        }
-    </script>
-
     <div id="popup" class="popup">
         <div class="popup-content">
             <h2>Join Our Telegram</h2>
-            <p>Get instant match updates, live scores, and exclusive streaming links!</p>
+            <p>Get instant match updates and exclusive links!</p>
             <a href="https://t.me/cricketmemesverse873" target="_blank" class="btn-telegram">Join Telegram Channel</a>
             <button class="btn-joined" onclick="startStream()">Already Joined / Close</button>
         </div>
     </div>
 
-    <div id="player-container" class="hide">
-        <div data-shaka-player-container style="width:100%; height:100%;">
-            <video autoplay data-shaka-player id="video" poster="https://envs.sh/Ab3.jpg/HGBOTZ.jpg"></video>
-        </div>
+    <div id="video-container" class="hide" data-shaka-player-container shaka-controls="true">
+        <video autoplay data-shaka-player id="video" poster="https://envs.sh/Ab3.jpg/HGBOTZ.jpg"></video>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js"></script>
 
     <script>
         const manifestUri = "https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/i2pcjr4pe5/out/v1/912e9db56d75403b8a9ac0a719110f36/cenc.mpd";
-        
-        // DRMS Keys
-        const clearKeys = {
-            "192b1115da041585c77200128549efa1": "634e10efe4abbb14be400a3ccbac0258"
-        };
+        const clearKeys = { "192b1115da041585c77200128549efa1": "634e10efe4abbb14be400a3ccbac0258" };
 
         async function initPlayer() {
             const video = document.getElementById('video');
+            const videoContainer = document.getElementById('video-container');
+
+            // 1. Initialize UI first
             const ui = video['ui'];
             const controls = ui.getControls();
             const player = controls.getPlayer();
 
+            // 2. Configure DRM
             player.configure({
-                drm: {
-                    clearKeys: clearKeys
-                }
+                drm: { clearKeys: clearKeys },
+                // Enable Quality selection in the settings menu
+                abr: { enabled: true }
             });
 
+            // 3. Load the Stream
             try {
                 await player.load(manifestUri);
-                console.log('Stream loaded successfully');
+                console.log('Stream Loaded!');
             } catch (e) {
-                console.error('Error loading stream', e);
+                console.error('Load Error:', e);
             }
         }
 
         function startStream() {
             document.getElementById("popup").classList.add("hide");
-            document.getElementById("player-container").classList.remove("hide");
-            // Initialize player only after user clicks to save bandwidth/auto-play issues
+            document.getElementById("video-container").classList.remove("hide");
+            
+            // Check if Shaka is loaded before starting
             if (window.shaka) {
                 initPlayer();
             }
         }
 
+        // Wait for UI library to be ready before allowing interaction
         document.addEventListener('shaka-ui-loaded', () => {
-            // Player is ready, but we wait for the popup click to "Load" the source
-        });
-
-        document.addEventListener('shaka-ui-load-failed', () => {
-            console.error('UI failed to load');
+            console.log("UI Library Loaded");
         });
     </script>
 </body>
 </html>
+
+
+
 
