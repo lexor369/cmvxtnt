@@ -2,154 +2,158 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>TG_@cricketmemesverse873</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<title>CMV LIVE</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/controls.min.css">
 
 <style>
 body{
-margin:0;
-background:#000;
-font-family:Arial,Helvetica,sans-serif;
-color:#fff;
-text-align:center;
+    margin:0;
+    background:#000;
+    font-family: Arial, Helvetica, sans-serif;
+    color:#fff;
 }
 
+/* HEADER */
 .header{
-padding:10px;
-margin:10px;
-border-bottom:2px solid #333;
-border-radius:6px;
-cursor:pointer;
-display:inline-block;
-background:#000;
+    text-align:center;
+    padding:15px;
 }
-
 .header img{
-max-width:300px;
-width:100%;
-border-radius:12px;
+    max-width:300px;
+    width:90%;
+    border-radius:12px;
 }
 
-.video-box{
-margin:15px;
-border-radius:12px;
-overflow:hidden;
-box-shadow:0 0 15px rgba(255,255,255,.25);
+/* CENTER PLAYER CARD */
+.main{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height: calc(100vh - 150px);
 }
 
+.player-card{
+    width:90%;
+    max-width:600px;
+    background:#000;
+    border-radius:15px;
+    box-shadow:0 0 20px rgba(255,255,255,0.2);
+    overflow:hidden;
+}
+
+/* PLAYER */
 video{
-width:100%;
-height:auto;
+    width:100%;
+    height:auto;
+    background:#000;
 }
 
-.btn-box{
-margin:15px auto;
-padding:15px;
-background:#111;
-border-radius:12px;
-max-width:500px;
-width:90%;
+/* POPUP */
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.9);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+}
+
+.popup.hide{display:none;}
+
+.popup-box{
+    background:#111;
+    padding:30px;
+    border-radius:15px;
+    text-align:center;
+    max-width:350px;
+}
+
+.popup-box h2{
+    color:#ffd700;
 }
 
 .btn{
-display:block;
-background:#fff;
-color:#000;
-text-decoration:none;
-font-weight:bold;
-padding:14px;
-margin:10px 0;
-border-radius:8px;
+    display:block;
+    margin:15px 0;
+    padding:12px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
 }
 
-.btn:hover{background:#e6e6e6}
+.btn-join{
+    background:#fff;
+    color:#0088cc;
+}
 
-.btn-red{
-background:#e60000;
-color:#fff;
+.btn-start{
+    background:#0088cc;
+    color:#fff;
+    border:none;
+    width:100%;
+    cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="header" onclick="window.open('https://t.me/cricketmemesverse873','_blank')">
-<img src="https://i.postimg.cc/JnKs3C9R/IMG-20260113-220813.png" alt="@cricketmemesverse873">
+<!-- HEADER IMAGE -->
+<div class="header">
+    <img src="https://i.postimg.cc/JnKs3C9R/IMG-20260113-220813.png">
 </div>
 
-<!-- ✅ UPDATED PLAYER (ONLY THIS PART CHANGED) -->
-<div class="video-box">
-  <div data-shaka-player-container style="width:100%;">
-    <video
-      autoplay
-      muted
-      data-shaka-player
-      id="video"
-      poster="https://i.postimg.cc/zDtj5s39/IMG-20260113-221902.png">
-    </video>
-  </div>
+<!-- PLAYER CENTER -->
+<div class="main">
+    <div class="player-card" id="player-container" style="display:none">
+        <div data-shaka-player-container>
+            <video id="video" autoplay data-shaka-player
+            poster="https://i.postimg.cc/GtvTBgkT/file-0000000085cc71fab12a5dd8528d1eab-(1).png"></video>
+        </div>
+    </div>
 </div>
 
-<!-- BUTTONS -->
-<div class="btn-box">
-<h3>📢 Follow us for Updates!</h3>
+<!-- TELEGRAM POPUP -->
+<div class="popup" id="popup">
+    <div class="popup-box">
+        <h2>Join Our Telegram</h2>
+        <p>Get live links & updates</p>
 
-<a href="https://t.me/cricketmemesverse873" class="btn">
-Click Here To Join Telegram For More Links
-</a>
+        <a class="btn btn-join" href="https://t.me/cricketmemesverse873" target="_blank">
+            Join Telegram
+        </a>
 
-<a onclick="copyLink()" class="btn btn-red">
-Copy Link & Use in Chrome Browser Only
-</a>
-
-<a onclick="sharePage()" class="btn">
-Click Here To Share This Page ❤️
-</a>
+        <button class="btn btn-start" onclick="startStream()">Already Joined</button>
+    </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.6/shaka-player.ui.min.js"></script>
 
 <script>
-const manifestUri =
-"https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/i2pcjr4pe5/out/v1/912e9db56d75403b8a9ac0a719110f36/cenc.mpd";
+const manifestUri = "https://otte.live.fly.ww.aiv-cdn.net/bom-nitro/live/dash/enc/i2pcjr4pe5/out/v1/912e9db56d75403b8a9ac0a719110f36/cenc.mpd";
 
 const clearKeys = {
-  "192b1115da041585c77200128549efa1":
-  "634e10efe4abbb14be400a3ccbac0258"
+    "192b1115da041585c77200128549efa1": "634e10efe4abbb14be400a3ccbac0258"
 };
 
-document.addEventListener('shaka-ui-loaded', async () => {
-  const video = document.getElementById('video');
-  const ui = video.ui;
-  const controls = ui.getControls();
-  const player = controls.getPlayer();
+function startStream(){
+    document.getElementById("popup").classList.add("hide");
+    document.getElementById("player-container").style.display="block";
 
-  player.configure({
-    drm: {
-      clearKeys: clearKeys
-    }
-  });
+    const video = document.getElementById("video");
+    const ui = video['ui'];
+    const controls = ui.getControls();
+    const player = controls.getPlayer();
 
-  try {
-    await player.load(manifestUri);
-    console.log("Stream loaded");
-  } catch (e) {
-    console.error("Error loading stream", e);
-  }
-});
+    player.configure({
+        drm:{ clearKeys }
+    });
 
-function copyLink(){
-navigator.clipboard.writeText(window.location.href);
-alert("✅ Link Copied");
-}
-
-function sharePage(){
-navigator.share({
-title:"@cricketmemesverse873",
-url:window.location.href
-});
+    player.load(manifestUri);
 }
 </script>
 
