@@ -104,54 +104,36 @@ Click Here To Share This Page ❤️
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", async () => {
-
-  // Install Shaka polyfills
-  shaka.polyfill.installAll();
-
+async function initPlayer() {
   const video = document.querySelector("video");
-  if (!video) {
-    console.error("❌ Video element not found");
-    return;
-  }
-
   const player = new shaka.Player(video);
 
-  player.configure({
+  await player.configure({
     drm: {
       clearKeys: {
         "1779c27b9d077a3ba0c9cc1bb9a94b9f": "cc5cf3b7928fb9e0a1ee6a8b566f0a8e"
       }
+    },
+    streaming: {
+      lowLatencyMode: true,
+      bufferingGoal: 15,
+      rebufferingGoal: 2
     }
   });
 
   try {
     await player.load("https://a170aivottlinear-a.akamaihd.net/OTTB/sin-nitro/live/clients/dash/enc/f60kqesunw/out/v1/a435ed7a00f947deb4369b46d8f2fb70/cenc.mpd");
-    console.log("✅ Video loaded successfully");
-  } catch (error) {
-    console.error("❌ Error loading video:", error);
-  }
-});
-
-// Copy link
-function copyLink() {
-  navigator.clipboard.writeText(window.location.href)
-    .then(() => alert("✅ Link Copied"))
-    .catch(err => alert("❌ Clipboard failed"));
-}
-
-// Share page
-function sharePage() {
-  if (navigator.share) {
-    navigator.share({
-      title: "@cricketmemesverse873",
-      url: window.location.href
-    });
-  } else {
-    alert("❌ Share not supported on this browser");
+    console.log("Nitro stream loaded");
+  } catch (e) {
+    console.error("Error loading stream", e);
+    alert("❌ Stream blocked by Akamai (token / CORS required)");
   }
 }
+
+initPlayer();
 </script>
 
+
 </html>
+
 
