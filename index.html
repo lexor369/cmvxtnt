@@ -10,63 +10,63 @@
 
 <style>
 body{
-margin:0;
-background:#000;
-font-family:Arial,Helvetica,sans-serif;
-color:#fff;
-text-align:center;
+  margin:0;
+  background:#000;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#fff;
+  text-align:center;
 }
 
 .header{
-padding:10px;
-margin:10px;
-border-bottom:2px solid #333;
-border-radius:6px;
-cursor:pointer;
-display:inline-block;
-background:#000;
+  padding:10px;
+  margin:10px;
+  border-bottom:2px solid #333;
+  border-radius:6px;
+  cursor:pointer;
+  display:inline-block;
+  background:#000;
 }
 
 .header img{
-max-width:300px;
-width:100%;
-border-radius:12px;
+  max-width:300px;
+  width:100%;
+  border-radius:12px;
 }
 
 .video-box{
-margin:15px;
-border-radius:12px;
-overflow:hidden;
-box-shadow:0 0 15px rgba(255,255,255,.25);
+  margin:15px;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 0 15px rgba(255,255,255,.25);
 }
 
 video{width:100%}
 
 .btn-box{
-margin:15px auto;
-padding:15px;
-background:#111;
-border-radius:12px;
-max-width:500px;
-width:90%;
+  margin:15px auto;
+  padding:15px;
+  background:#111;
+  border-radius:12px;
+  max-width:500px;
+  width:90%;
 }
 
 .btn{
-display:block;
-background:#fff;
-color:#000;
-text-decoration:none;
-font-weight:bold;
-padding:14px;
-margin:10px 0;
-border-radius:8px;
+  display:block;
+  background:#fff;
+  color:#000;
+  text-decoration:none;
+  font-weight:bold;
+  padding:14px;
+  margin:10px 0;
+  border-radius:8px;
 }
 
 .btn:hover{background:#e6e6e6}
 
 .btn-red{
-background:#e60000;
-color:#fff;
+  background:#e60000;
+  color:#fff;
 }
 </style>
 </head>
@@ -75,59 +75,56 @@ color:#fff;
 
 <!-- FIRST JPG -->
 <div class="header" onclick="window.open('https://t.me/cricketmemesverse873','_blank')">
-<img src="https://i.postimg.cc/JnKs3C9R/IMG-20260113-220813.png" alt="@cricketmemesverse873">
+  <img src="https://i.postimg.cc/JnKs3C9R/IMG-20260113-220813.png" alt="@cricketmemesverse873">
 </div>
 
 <!-- VIDEO with second JPG -->
 <div class="video-box">
-<div data-shaka-player-container>
-<video autoplay muted data-shaka-player
-poster="https://i.postimg.cc/zDtj5s39/IMG-20260113-221902.png"></video>
-</div>
+  <div data-shaka-player-container>
+    <video autoplay muted data-shaka-player
+      poster="https://i.postimg.cc/zDtj5s39/IMG-20260113-221902.png">
+    </video>
+  </div>
 </div>
 
 <!-- BUTTONS -->
 <div class="btn-box">
-<h3>📢 Follow us for Updates!</h3>
+  <h3>📢 Follow us for Updates!</h3>
 
-<a href="https://t.me/cricketmemesverse873" class="btn">
-Click Here To Join Telegram For More Links
-</a>
+  <a href="https://t.me/cricketmemesverse873" class="btn">
+    Click Here To Join Telegram For More Links
+  </a>
 
-<a onclick="copyLink()" class="btn btn-red">
-Copy Link & Use in Chrome Browser Only
-</a>
+  <a onclick="copyLink()" class="btn btn-red">
+    Copy Link & Use in Chrome Browser Only
+  </a>
 
-<a onclick="sharePage()" class="btn">
-Click Here To Share This Page ❤️
-</a>
+  <a onclick="sharePage()" class="btn">
+    Click Here To Share This Page ❤️
+  </a>
 </div>
 
 <script>
 const video = document.querySelector("video");
 const player = new shaka.Player(video);
 
-// ClearKey DRM
-player.configure({
-drm:{
-clearKeys:{
-"1779c27b9d077a3ba0c9cc1bb9a94b9f":"cc5cf3b7928fb9e0a1ee6a8b566f0a8e"
-}}
-});
+// You don’t need DRM or clearKeys for HLS
+// Just load your m3u8 stream
+player.load("https://in-mc-fdlive.fancode.com/mumbai/139579_english_hls_e863ca214f34866_1ta-di_h264/1080p.m3u8");
 
-// Akamai Nitro Stream
-player.load("https://a170aivottlinear-a.akamaihd.net/OTTB/sin-nitro/live/clients/dash/enc/f60kqesunw/out/v1/a435ed7a00f947deb4369b46d8f2fb70/cenc.mpd");
+// Optional: Show errors
+player.addEventListener('error', e => console.error(e));
 
 function copyLink(){
-navigator.clipboard.writeText(window.location.href);
-alert("✅ Link Copied");
+  navigator.clipboard.writeText(window.location.href);
+  alert("✅ Link Copied");
 }
 
 function sharePage(){
-navigator.share({
-title:"@cricketmemesverse873",
-url:window.location.href
-});
+  navigator.share({
+    title:"@cricketmemesverse873",
+    url:window.location.href
+  });
 }
 </script>
 
