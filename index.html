@@ -104,30 +104,54 @@ Click Here To Share This Page ❤️
 </div>
 
 <script>
-const video = document.querySelector("video");
-const player = new shaka.Player(video);
+document.addEventListener("DOMContentLoaded", async () => {
 
-player.configure({
-drm:{
-clearKeys:{
-"48bef83b4c6a3c5189b01b0126210da4":"bd085230b7e0af111a8ab09e50954f"
-}}
+  // Install Shaka polyfills
+  shaka.polyfill.installAll();
+
+  const video = document.querySelector("video");
+  if (!video) {
+    console.error("❌ Video element not found");
+    return;
+  }
+
+  const player = new shaka.Player(video);
+
+  player.configure({
+    drm: {
+      clearKeys: {
+        "1779c27b9d077a3ba0c9cc1bb9a94b9f": "cc5cf3b7928fb9e0a1ee6a8b566f0a8e"
+      }
+    }
+  });
+
+  try {
+    await player.load("https://a170aivottlinear-a.akamaihd.net/OTTB/sin-nitro/live/clients/dash/enc/f60kqesunw/out/v1/a435ed7a00f947deb4369b46d8f2fb70/cenc.mpd");
+    console.log("✅ Video loaded successfully");
+  } catch (error) {
+    console.error("❌ Error loading video:", error);
+  }
 });
 
-player.load("https://evrabia.com/live/eds/CricketLife2/DASH/manifest.mpd");
-
-function copyLink(){
-navigator.clipboard.writeText(window.location.href);
-alert("✅ Link Copied");
+// Copy link
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href)
+    .then(() => alert("✅ Link Copied"))
+    .catch(err => alert("❌ Clipboard failed"));
 }
 
-function sharePage(){
-navigator.share({
-title:"@cricketmemesverse873",
-url:window.location.href
-});
+// Share page
+function sharePage() {
+  if (navigator.share) {
+    navigator.share({
+      title: "@cricketmemesverse873",
+      url: window.location.href
+    });
+  } else {
+    alert("❌ Share not supported on this browser");
+  }
 }
 </script>
 
-</body>
 </html>
+
